@@ -37,7 +37,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section (Consistent with About page) */}
+      {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-teal-700 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

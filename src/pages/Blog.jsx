@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BlogCard from '../components/BlogCard';
 import BlogModal from '../components/BlogModal';
-import { blogPosts } from '../data/dummyData';
 import { Search, Filter } from 'lucide-react';
 
 const Blog = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,10 +12,28 @@ const Blog = () => {
 
   const categories = ['All', 'Moving Tips', 'Packing Guide', 'Business Moving'];
 
+  // Fetch blog posts from backend
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/blogs`);
+        const data = await res.json();
+        setBlogPosts(data);
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
   const filteredPosts = blogPosts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.summary.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.summary.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
 
@@ -111,33 +129,8 @@ const Blog = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 {filteredPosts.map((post) => (
-                  <BlogCard
-                    key={post.id}
-                    post={post}
-                    onClick={handlePostClick}
-                  />
+                  <BlogCard key={post._id} post={post} onClick={handlePostClick} />
                 ))}
-              </div>
-
-              {/* Pagination Placeholder */}
-              <div className="flex justify-center">
-                <nav className="flex items-center space-x-2">
-                  <button className="px-3 py-2 text-gray-500 hover:text-gray-700 cursor-not-allowed" disabled>
-                    Previous
-                  </button>
-                  <button className="px-3 py-2 bg-blue-600 text-white rounded-lg">
-                    1
-                  </button>
-                  <button className="px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                    2
-                  </button>
-                  <button className="px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                    3
-                  </button>
-                  <button className="px-3 py-2 text-gray-700 hover:text-blue-600">
-                    Next
-                  </button>
-                </nav>
               </div>
             </>
           )}
@@ -169,7 +162,6 @@ const Blog = () => {
               </button>
             </form>
             <p className="text-blue-200 text-sm mt-3">
-              {/* TODO: Backend integration for newsletter subscription */}
               We respect your privacy. Unsubscribe at any time.
             </p>
           </div>
@@ -177,11 +169,7 @@ const Blog = () => {
       </section>
 
       {/* Blog Modal */}
-      <BlogModal
-        post={selectedPost}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+      <BlogModal post={selectedPost} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 };

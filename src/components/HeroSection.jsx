@@ -11,7 +11,6 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.pexels.com/photos/4246120/pexels-photo-4246120.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -24,14 +23,12 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto">
-          {/* Main Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
             UrbanShifters –{' '}
             <span className="text-blue-400">Move Smart</span>,{' '}
             <span className="text-teal-400">Move Fast</span>
           </h1>
 
-          {/* Subheadline */}
           <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
             Professional packing and moving services across India. 
             Safe, reliable, and hassle-free relocation for homes and offices.

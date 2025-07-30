@@ -8,9 +8,11 @@ const Reviews = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const fetchApprovedReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/reviews');
+      const res = await axios.get(`${API_BASE}/api/reviews`);
       const approved = res.data.filter((r) => r.approved);
       setReviews(approved);
       setIsLoading(false);
@@ -31,7 +33,7 @@ const Reviews = () => {
       return;
     }
     try {
-      await axios.post('http://localhost:5000/api/reviews', form);
+      await axios.post(`${API_BASE}/api/reviews`, form);
       alert('Review submitted for approval!');
       setForm({ name: '', rating: '', message: '' });
       setIsModalOpen(false);

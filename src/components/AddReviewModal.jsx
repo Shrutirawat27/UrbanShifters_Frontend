@@ -14,7 +14,6 @@ const AddReviewModal = ({ isOpen, onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Backend integration here
     onSubmit(formData);
     setFormData({ name: '', location: '', rating: 5, review: '' });
     onClose();

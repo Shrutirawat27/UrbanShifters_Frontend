@@ -17,7 +17,6 @@ const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const navigation = [
-    { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Blog Posts', href: '/admin/blogs', icon: FileText },
     { name: 'Enquiries', href: '/admin/enquiries', icon: MessageSquare },
     { name: 'Reviews', href: '/admin/reviews', icon: Star },
@@ -27,7 +26,7 @@ const AdminLayout = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('isAdmin');
-    localStorage.removeItem('adminToken'); // optional, if you're storing token
+    localStorage.removeItem('adminToken'); 
     navigate('/admin/login');
   };
 

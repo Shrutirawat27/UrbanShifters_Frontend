@@ -1,18 +1,29 @@
-// AdminReviews.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Star, Check, X, Eye, Calendar, MapPin, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  Star,
+  Check,
+  X,
+  Eye,
+  Calendar,
+  Filter,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 
 const AdminReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [selectedReview, setSelectedReview] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
-  const [sortConfig, setSortConfig] = useState({ key: 'createdAt', direction: 'desc' });
+  const [sortConfig, setSortConfig] = useState({
+    key: 'createdAt',
+    direction: 'desc',
+  });
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/reviews');
+      const res = await axios.get(`${API_BASE}/api/reviews`);
       setReviews(res.data);
       setIsLoading(false);
     } catch (err) {
@@ -23,8 +34,8 @@ const AdminReviews = () => {
 
   const approveReview = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/reviews/approve/${id}`);
-      fetchReviews(); // Refresh after approval
+      await axios.put(`${API_BASE}/api/reviews/approve/${id}`);
+      fetchReviews();
     } catch (err) {
       console.error('Error approving review:', err);
     }
@@ -32,8 +43,8 @@ const AdminReviews = () => {
 
   const rejectReview = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/reviews/reject/${id}`);
-      fetchReviews(); // Refresh after rejection
+      await axios.put(`${API_BASE}/api/reviews/reject/${id}`);
+      fetchReviews();
     } catch (err) {
       console.error('Error rejecting review:', err);
     }
@@ -41,8 +52,8 @@ const AdminReviews = () => {
 
   const deleteReview = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/reviews/${id}`);
-      fetchReviews(); // Refresh after deletion
+      await axios.delete(`${API_BASE}/api/reviews/${id}`);
+      fetchReviews();
     } catch (err) {
       console.error('Error deleting review:', err);
     }
@@ -70,13 +81,17 @@ const AdminReviews = () => {
     return 0;
   });
 
-  const filteredReviews = sortedReviews.filter(review => {
+  const filteredReviews = sortedReviews.filter((review) => {
     if (filterStatus === 'all') return true;
-    return filterStatus === 'approved' ? review.approved : !review.approved;
+    return filterStatus === 'approved'
+      ? review.approved
+      : !review.approved;
   });
 
   const getStatusColor = (approved) => {
-    return approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+    return approved
+      ? 'bg-green-100 text-green-800'
+      : 'bg-yellow-100 text-yellow-800';
   };
 
   const renderStars = (rating) => {
@@ -91,21 +106,24 @@ const AdminReviews = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    const date = new Date(dateString);
+    return isNaN(date)
+      ? 'Invalid Date'
+      : date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
   };
 
   const statusCounts = {
     total: reviews.length,
-    approved: reviews.filter(r => r.approved).length,
-    pending: reviews.filter(r => !r.approved).length
+    approved: reviews.filter((r) => r.approved).length,
+    pending: reviews.filter((r) => !r.approved).length,
   };
 
-  const averageRating = reviews.filter(r => r.approved)
-    .reduce((sum, review, _, { length }) => sum + review.rating / length, 0) || 0;
+  const averageRating =
+    reviews.filter((r) => r.approved).reduce((sum, review, _, { length }) => sum + review.rating / length, 0) || 0;
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -128,7 +146,7 @@ const AdminReviews = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-xl shadow p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -140,7 +158,7 @@ const AdminReviews = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-xl shadow p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -158,7 +176,6 @@ const AdminReviews = () => {
       <div className="bg-white rounded-xl shadow overflow-hidden">
         <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h2 className="text-xl font-semibold text-gray-900">All Reviews</h2>
-          
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Filter className="h-5 w-5 text-gray-400" />
@@ -175,7 +192,7 @@ const AdminReviews = () => {
             </select>
           </div>
         </div>
-        
+
         {isLoading ? (
           <div className="flex justify-center p-12">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -185,8 +202,8 @@ const AdminReviews = () => {
             <Star className="h-16 w-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No reviews found</h3>
             <p className="text-gray-600">
-              {filterStatus === 'all' 
-                ? 'No reviews have been submitted yet.' 
+              {filterStatus === 'all'
+                ? 'No reviews have been submitted yet.'
                 : 'Try adjusting your filter to see more reviews.'}
             </p>
           </div>
@@ -195,55 +212,58 @@ const AdminReviews = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th 
-                    scope="col" 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => handleSort('name')}
                   >
                     <div className="flex items-center">
                       Customer
                       {sortConfig.key === 'name' && (
-                        sortConfig.direction === 'asc' ? 
-                        <ChevronUp className="ml-1 h-4 w-4" /> : 
-                        <ChevronDown className="ml-1 h-4 w-4" />
+                        sortConfig.direction === 'asc' ? (
+                          <ChevronUp className="ml-1 h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="ml-1 h-4 w-4" />
+                        )
                       )}
                     </div>
                   </th>
-                  <th 
-                    scope="col" 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => handleSort('rating')}
                   >
                     <div className="flex items-center">
                       Rating
                       {sortConfig.key === 'rating' && (
-                        sortConfig.direction === 'asc' ? 
-                        <ChevronUp className="ml-1 h-4 w-4" /> : 
-                        <ChevronDown className="ml-1 h-4 w-4" />
+                        sortConfig.direction === 'asc' ? (
+                          <ChevronUp className="ml-1 h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="ml-1 h-4 w-4" />
+                        )
                       )}
                     </div>
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Review
                   </th>
-                  <th 
-                    scope="col" 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => handleSort('createdAt')}
                   >
                     <div className="flex items-center">
                       Date
                       {sortConfig.key === 'createdAt' && (
-                        sortConfig.direction === 'asc' ? 
-                        <ChevronUp className="ml-1 h-4 w-4" /> : 
-                        <ChevronDown className="ml-1 h-4 w-4" />
+                        sortConfig.direction === 'asc' ? (
+                          <ChevronUp className="ml-1 h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="ml-1 h-4 w-4" />
+                        )
                       )}
                     </div>
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -297,9 +317,9 @@ const AdminReviews = () => {
                           </button>
                         )}
                         <button
-                          onClick={() => {
+                          onClick={async () => {
                             if (window.confirm('Are you sure you want to delete this review?')) {
-                              deleteReview(review._id);
+                              await deleteReview(review._id);
                             }
                           }}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
@@ -317,94 +337,78 @@ const AdminReviews = () => {
         )}
       </div>
 
-      {/* Review Detail Modal */}
+      {/* Modal */}
       {selectedReview && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
-            <div
-              className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-              onClick={() => setSelectedReview(null)}
-            ></div>
-            <div className="relative bg-white rounded-xl shadow-2xl max-w-2xl w-full">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Review Details</h2>
-                  <button
-                    onClick={() => setSelectedReview(null)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-6 w-6" />
-                  </button>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
-                      <p className="text-gray-900">{selectedReview.name}</p>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
-                      <div className="flex items-center space-x-2">
-                        <div className="flex space-x-1">
-                          {renderStars(selectedReview.rating)}
-                        </div>
-                        <span className="text-gray-600">({selectedReview.rating}/5)</span>
-                      </div>
-                    </div>
-                  </div>
-                  
+            <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={() => setSelectedReview(null)}></div>
+            <div className="relative bg-white rounded-xl shadow-2xl max-w-2xl w-full p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Review Details</h2>
+                <button onClick={() => setSelectedReview(null)} className="text-gray-400 hover:text-gray-600">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                    <p className="text-gray-900">{formatDate(selectedReview.createdAt)}</p>
+                    <label className="text-sm font-medium text-gray-700">Customer Name</label>
+                    <p className="text-gray-900">{selectedReview.name}</p>
                   </div>
-                  
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(selectedReview.approved)}`}>
-                      {selectedReview.approved ? 'Approved' : 'Pending'}
-                    </span>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Review</label>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-gray-900 leading-relaxed">{selectedReview.message}</p>
+                    <label className="text-sm font-medium text-gray-700">Rating</label>
+                    <div className="flex items-center space-x-2">
+                      {renderStars(selectedReview.rating)}
+                      <span className="text-gray-600">({selectedReview.rating}/5)</span>
                     </div>
                   </div>
                 </div>
-                
-                <div className="flex justify-end space-x-4 mt-6 pt-6 border-t border-gray-200">
-                  {!selectedReview.approved && (
-                    <button
-                      onClick={() => {
-                        approveReview(selectedReview._id);
-                        setSelectedReview(null);
-                      }}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
-                    >
-                      Approve
-                    </button>
-                  )}
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Date</label>
+                  <p className="text-gray-900">{formatDate(selectedReview.createdAt)}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Status</label>
+                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(selectedReview.approved)}`}>
+                    {selectedReview.approved ? 'Approved' : 'Pending'}
+                  </span>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Review</label>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-900">{selectedReview.message}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end space-x-4 mt-6 pt-6 border-t">
+                {!selectedReview.approved && (
                   <button
                     onClick={() => {
-                      if (window.confirm('Are you sure you want to delete this review?')) {
-                        deleteReview(selectedReview._id);
-                        setSelectedReview(null);
-                      }
+                      approveReview(selectedReview._id);
+                      setSelectedReview(null);
                     }}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
                   >
-                    Delete
+                    Approve
                   </button>
-                  <button
-                    onClick={() => setSelectedReview(null)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    Close
-                  </button>
-                </div>
+                )}
+                <button
+                  onClick={async () => {
+                    if (window.confirm('Are you sure you want to delete this review?')) {
+                      await deleteReview(selectedReview._id);
+                      setSelectedReview(null);
+                    }
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => setSelectedReview(null)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>
