@@ -28,7 +28,7 @@ const AdminLogin = () => {
       if (res.ok) {
         localStorage.setItem('isAdmin', 'true');
         localStorage.setItem('adminToken', data.token);
-        navigate('/admin/dashboard');
+        navigate('/admin/blogs');
       } else {
         setError(data.message || 'Login failed');
       }
