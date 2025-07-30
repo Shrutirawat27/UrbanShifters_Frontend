@@ -186,7 +186,7 @@ const AdminReviews = () => {
               onChange={(e) => setFilterStatus(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="all">All Statuses</option>
+              <option value="all">All Status</option>
               <option value="approved">Approved</option>
               <option value="pending">Pending</option>
             </select>

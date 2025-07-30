@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import ServiceModal from '../components/ServiceModal';
 import { services } from '../data/dummyData';
-import { CheckCircle, ArrowRight, Phone } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
