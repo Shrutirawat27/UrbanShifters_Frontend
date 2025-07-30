@@ -23,7 +23,7 @@ const AdminReviews = () => {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/reviews');
+      const res = await axios.get(`${API_BASE}/api/reviews`);
       setReviews(res.data);
       setIsLoading(false);
     } catch (err) {
@@ -34,7 +34,7 @@ const AdminReviews = () => {
 
   const approveReview = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/reviews/approve/${id}`);
+      await axios.put(`${API_BASE}/api/reviews/approve/${id}`);
       fetchReviews();
     } catch (err) {
       console.error('Error approving review:', err);
@@ -43,7 +43,7 @@ const AdminReviews = () => {
 
   const rejectReview = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/reviews/reject/${id}`);
+      await axios.put(`${API_BASE}/api/reviews/reject/${id}`);
       fetchReviews();
     } catch (err) {
       console.error('Error rejecting review:', err);
@@ -52,7 +52,7 @@ const AdminReviews = () => {
 
   const deleteReview = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/reviews/${id}`);
+      await axios.delete(`${API_BASE}/api/reviews/${id}`);
       fetchReviews();
     } catch (err) {
       console.error('Error deleting review:', err);

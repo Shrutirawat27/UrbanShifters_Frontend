@@ -114,7 +114,7 @@ const AdminBlogs = () => {
     });
   };
 
-  // === Form view ===
+  // Form view 
   if (isEditing || isCreating) {
     return (
       <div className="space-y-6">
@@ -230,7 +230,7 @@ const AdminBlogs = () => {
     );
   }
 
-  // === Table view ===
+  // Table view 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
