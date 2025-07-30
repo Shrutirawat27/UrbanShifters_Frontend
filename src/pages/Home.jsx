@@ -160,6 +160,7 @@ const Home = () => {
                     <div className="flex items-center">{renderStars(review.rating)}</div>
                   </div>
                   <p className="text-sm text-gray-700 mb-2">{review.message}</p>
+                   <p className="text-xs text-gray-500">{new Date(review.createdAt).toLocaleDateString()}</p>
                   
                 </div>
               ))
