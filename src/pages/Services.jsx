@@ -18,7 +18,6 @@ const Services = () => {
     setSelectedService(null);
   };
 
-  // AdditionalServices and ProcessSteps here (unchanged)...
   const additionalServices = [
     'Free Pre-move Survey',
     'Professional Packing Materials',
@@ -38,7 +37,6 @@ const Services = () => {
 
   return (
     <div className="min-h-screen">
-      {/* ... Existing sections like Hero, How it works, etc. (unchanged) ... */}
 
       {/* Main Services Grid */}
       <section className="py-16 bg-white">
@@ -63,12 +61,9 @@ const Services = () => {
               />
             ))}
           </div>
-
-          {/* Include your Additional Services block here... */}
+          
         </div>
       </section>
-
-      {/* Include your ProcessSteps, Service Areas, and CTA here... */}
 
       {/* Modal Component */}
       <ServiceModal 

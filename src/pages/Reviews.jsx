@@ -31,7 +31,7 @@ const Reviews = () => {
       alert('Review submitted for approval!');
       setForm({ name: '', rating: '', message: '' });
       setIsModalOpen(false);
-      fetchApprovedReviews(); // Refresh the reviews list
+      fetchApprovedReviews(); 
     } catch (err) {
       console.error('Error submitting review:', err);
       alert('Failed to submit review. Please try again.');

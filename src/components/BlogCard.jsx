@@ -28,7 +28,6 @@ const BlogCard = ({ post, onClick }) => {
 
       {/* Content */}
       <div className="p-6">
-        {/* Meta Information */}
         <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
           <div className="flex items-center space-x-1">
             <Calendar className="h-4 w-4" />

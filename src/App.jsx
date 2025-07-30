@@ -14,7 +14,6 @@ import Contact from './pages/Contact';
 import Reviews from './pages/Reviews';
 
 // Admin Pages
-import Dashboard from './pages/admin/Dashboard';
 import AdminBlogs from './pages/admin/AdminBlogs';
 import AdminEnquiries from './pages/admin/AdminEnquiries';
 import AdminReviews from './pages/admin/AdminReviews';
@@ -35,15 +34,6 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute>
-              <AdminLayout><Dashboard /></AdminLayout>
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/admin/blogs"
           element={

@@ -1,4 +1,3 @@
-// components/ServiceCard.jsx
 import React from 'react';
 import { Home, Building, Car, Warehouse, Package, Truck } from 'lucide-react';
 

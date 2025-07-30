@@ -52,7 +52,7 @@ const Home = () => {
               <ServiceCard 
                 key={service.id} 
                 service={service} 
-                featured={index === 1} // Make Office Shifting featured
+                featured={index === 1} 
               />
             ))}
           </div>
