@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import HeroSection from '../components/HeroSection';
 import ServiceCard from '../components/ServiceCard';
-import TestimonialSlider from '../components/TestimonialSlider';
+import ServiceModal from '../components/ServiceModal';
 import { services } from '../data/dummyData';
-import { CheckCircle, Shield, Clock, Award } from 'lucide-react';
+import { CheckCircle, Shield, Clock, Award, Star } from 'lucide-react';
 
 const Home = () => {
+  const [selectedService, setSelectedService] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reviews, setReviews] = useState([]);
+
+  const handleOpenModal = (service) => {
+    setSelectedService(service);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedService(null);
+  };
+
   const whyChooseUs = [
     {
       icon: Shield,
@@ -29,12 +44,32 @@ const Home = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchApprovedReviews = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/reviews');
+        const approved = res.data.filter((r) => r.approved);
+        setReviews(approved);
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err);
+      }
+    };
+    fetchApprovedReviews();
+  }, []);
+
+  const renderStars = (rating) =>
+    Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`h-4 w-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+      />
+    ));
+
   return (
     <div>
-      {/* Hero Section */}
       <HeroSection />
 
-      {/* Services Overview */}
+      {/* Services Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -52,7 +87,8 @@ const Home = () => {
               <ServiceCard 
                 key={service.id} 
                 service={service} 
-                featured={index === 1} // Make Office Shifting featured
+                featured={index === 1}
+                onClick={() => handleOpenModal(service)}
               />
             ))}
           </div>
@@ -103,7 +139,34 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <TestimonialSlider />
+<section className="py-16 bg-gray-50 text-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Customers Say</h2>
+          <p className="text-lg text-black mb-10 max-w-2xl mx-auto">
+            Don’t just take our word for it. Here's what our satisfied customers have to say about their UrbanShifters experience.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {reviews.length === 0 ? (
+              <p className="col-span-full text-blue-100">No reviews yet</p>
+            ) : (
+              reviews.slice(0, 6).map((review) => (
+                <div
+                  key={review._id}
+                  className="bg-white text-gray-800 p-6 rounded-lg shadow-md"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold">{review.name}</h4>
+                    <div className="flex items-center">{renderStars(review.rating)}</div>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-2">{review.message}</p>
+                  
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-teal-600">
@@ -131,6 +194,13 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      <ServiceModal 
+        service={selectedService} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+      />
     </div>
   );
 };

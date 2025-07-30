@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import { contactInfo } from '../data/dummyData';
-
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -266,17 +265,23 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Map Placeholder */}
+              {/* Map Section */}
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Our Location</h3>
-                <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-500">Interactive Map</p>
-                    <p className="text-sm text-gray-400">Map integration coming soon</p>
-                  </div>
+
+              <div className="rounded-lg overflow-hidden shadow-md h-96">
+                <iframe
+                 title="UrbanShifters Location"
+                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.2487708184793!2d77.04017807494634!3d28.621717875680936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1dbfcff1dc5b%3A0x90297fd4f3b902fa!2sGurgaon%2C%20Haryana%20122001!5e0!3m2!1sen!2sin!4v1690000000000!5m2!1sen!2sin"
+                 width="100%"
+                 height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                 ></iframe>
+                    </div>
                 </div>
-              </div>
 
               {/* Quick Contact */}
               <div className="bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl p-8 text-white">
