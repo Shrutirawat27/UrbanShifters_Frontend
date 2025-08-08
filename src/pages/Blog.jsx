@@ -14,6 +14,7 @@ const Blog = () => {
 
   // Fetch blog posts from backend
   useEffect(() => {
+    console.log('API Base URL:', import.meta.env.VITE_API_BASE_URL);
     const fetchBlogs = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/blogs`);
